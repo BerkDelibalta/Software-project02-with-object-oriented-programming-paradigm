@@ -44,16 +44,10 @@ public class Restaurant {
     }
 
 public int getAverageRating(){
-    int sumOfRatings=ratings.stream().collect(Collectors.summingInt(Integer::intValue));
+    int sumOfRatings=ratings.stream().mapToInt(Integer::intValue).sum();
     int numberOfRatings=ratings.stream().collect(Collectors.collectingAndThen(Collectors.counting(),Long::intValue));
-    int averageRating=0;
 
-    if(numberOfRatings!=0)
-         averageRating = sumOfRatings / numberOfRatings;
-    else
-        averageRating=0;
-
-    return averageRating;
+    return sumOfRatings / numberOfRatings;
 }
 
 }

@@ -1,8 +1,5 @@
 package delivery;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class Dish {
 
    private String name;

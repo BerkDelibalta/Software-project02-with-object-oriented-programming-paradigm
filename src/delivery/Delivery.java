@@ -54,10 +54,10 @@ public class Delivery {
 	 * @return sorted list of restaurant names
 	 */
 	public List<String> getRestaurantsForCategory(String category) {
-		return restaurants.entrySet().stream().filter(e->e.getValue().getCategory().equals(category))
-				.map(e->e.getValue())
+		return restaurants.values().stream()
+				.filter(e->e.getCategory().equals(category))
 				.sorted(Comparator.comparing(Restaurant::getName))
-				.map(e->e.getName()).collect(Collectors.toList());
+				.map(Restaurant::getName).collect(Collectors.toList());
 	}
 
 	// R2
@@ -176,15 +176,11 @@ public class Delivery {
 	 */
 	public int addOrder(String dishNames[], int quantities[], String customerName, String restaurantName,
 			int deliveryTime, int deliveryDistance) {
-		Map<String,Integer> dishes = new HashMap<>();
-for(String dish : dishNames)
-	for(int quantity : quantities)
-		dishes.put(dish,quantity);
 
 	Restaurant restaurant = restaurants.get(restaurantName);
 
 	++orderId;
-	Order order = new Order(orderId,customerName,restaurant,dishes,deliveryTime,deliveryDistance);
+	Order order = new Order(orderId,customerName,restaurant,deliveryTime,deliveryDistance);
 	orders.put(orderId,order);
 
 
@@ -210,7 +206,7 @@ for(String dish : dishNames)
 
 		List<Integer> listOfOrderIds=orders.values().stream()
 				.filter(e->e.getDeliveryTime()==deliveryTime && e.getDeliveryDistance()<=maxDistance)
-				.map(e->e.getOrderId()).collect(Collectors.toList());
+				.map(Order::getOrderId).collect(Collectors.toList());
 
 
 		List<Integer> maxIdNumbers = new LinkedList<>();
