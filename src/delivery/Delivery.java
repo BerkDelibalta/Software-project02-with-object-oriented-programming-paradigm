@@ -150,11 +150,7 @@ public class Delivery {
 			return new LinkedList<>();
 		}
 
-		return restaurants.values().stream()
-				.filter(e->e.getCategory().equals(category))
-				.flatMap(e->e.getDishes().stream())
-				.map(Dish::getName)
-				.collect(Collectors.toList());
+		return listOfDishes;
 	}
 
 	// R3

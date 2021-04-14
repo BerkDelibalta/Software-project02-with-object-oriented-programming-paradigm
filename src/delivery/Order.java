@@ -1,7 +1,5 @@
 package delivery;
 
-import java.util.HashMap;
-import java.util.Map;
 
 enum orderStatus{NOT_YET_ASSIGNED,ASSIGNED}
 
