@@ -41,8 +41,7 @@ public class Delivery {
 	public void addRestaurant(String name, String category) throws DeliveryException {
 		if(!categories.contains(category)) throw new DeliveryException();
 
-		Restaurant restaurant = new Restaurant(name,category);
-		restaurants.put(name,restaurant);
+		restaurants.put(name,new Restaurant(name,category));
 	}
 
 	/**
@@ -76,11 +75,9 @@ public class Delivery {
 
 		if (restaurant != null) {
 
-			Dish dish = new Dish(restaurantName, name, price);
-
 			if (restaurant.getDishes().stream().anyMatch(e->e.getName().equals(name))) throw new DeliveryException();
 
-			restaurant.addDishes(dish);
+			restaurant.addDishes(new Dish(restaurantName, name, price));
 
 		}
 	}
@@ -176,9 +173,7 @@ public class Delivery {
 	Restaurant restaurant = restaurants.get(restaurantName);
 
 	++orderId;
-	Order order = new Order(orderId,customerName,restaurant,deliveryTime,deliveryDistance);
-	orders.put(orderId,order);
-
+	orders.put(orderId,new Order(orderId,customerName,restaurant,deliveryTime,deliveryDistance));
 
 		return orderId;
 	}
