@@ -56,7 +56,8 @@ public class Delivery {
 		return restaurants.values().stream()
 				.filter(e->e.getCategory().equals(category))
 				.sorted(Comparator.comparing(Restaurant::getName))
-				.map(Restaurant::getName).collect(Collectors.toList());
+				.map(Restaurant::getName)
+                .collect(Collectors.toList());
 	}
 
 	// R2
@@ -133,7 +134,7 @@ public class Delivery {
 	 * category the method must return and empty list.
 	 * 
 	 * @param category the category
-	 * @return
+	 * @return List of dishes
 	 */
 	public List<String> getDishesByCategory(String category) {
 
@@ -170,10 +171,8 @@ public class Delivery {
 	public int addOrder(String dishNames[], int quantities[], String customerName, String restaurantName,
 			int deliveryTime, int deliveryDistance) {
 
-	Restaurant restaurant = restaurants.get(restaurantName);
-
 	++orderId;
-	orders.put(orderId,new Order(orderId,customerName,restaurant,deliveryTime,deliveryDistance));
+	orders.put(orderId,new Order(orderId,customerName,restaurants.get(restaurantName),deliveryTime,deliveryDistance));
 
 		return orderId;
 	}
@@ -224,7 +223,6 @@ public class Delivery {
 			}
 
 
-
 		return maxIdNumbers;
 
 	}
@@ -235,8 +233,8 @@ public class Delivery {
 	 * @return the unassigned orders count
 	 */
 	public int getPendingOrders() {
-		return orders.values().stream().filter(e->e.getStatus().equals(orderStatus.NOT_YET_ASSIGNED))
-				.collect(Collectors.toList()).size();
+		return (int) orders.values().stream().filter(e->e.getStatus().equals(orderStatus.NOT_YET_ASSIGNED)).count();
+
 	}
 
 	// R4
@@ -249,10 +247,8 @@ public class Delivery {
 	 */
 	public void setRatingForRestaurant(String restaurantName, int rating) {
 
-		Restaurant restaurant = restaurants.get(restaurantName);
-
 		if(rating>=0 && rating<=5){
-			restaurant.addRating(rating);
+            restaurants.get(restaurantName).addRating(rating);
 		}
 	}
 
@@ -267,9 +263,11 @@ public class Delivery {
 	 */
 	public List<String> restaurantsAverageRating() {
 
-		return restaurants.values().stream().filter(e->e.getRatings().size()!=0)
+		return restaurants.values().stream()
+                .filter(e->e.getRatings().size()!=0)
 				.sorted(Comparator.comparing(Restaurant::getAverageRating).reversed())
-				.map(Restaurant::getName).collect(Collectors.toList());
+				.map(Restaurant::getName)
+                .collect(Collectors.toList());
 	}
 
 	// R5
@@ -297,6 +295,7 @@ public class Delivery {
 		return restaurants.values()
 				.stream()
 				.max(Comparator.comparing(Restaurant::getAverageRating))
-				.map(Restaurant::getName).get();
+				.map(Restaurant::getName)
+                .get();
 	}
 }

@@ -45,7 +45,7 @@ public class Restaurant {
 
 public int getAverageRating(){
     int sumOfRatings=ratings.stream().mapToInt(Integer::intValue).sum();
-    int numberOfRatings=ratings.stream().collect(Collectors.collectingAndThen(Collectors.counting(),Long::intValue));
+    int numberOfRatings=ratings.size();
 
     return sumOfRatings / numberOfRatings;
 }
