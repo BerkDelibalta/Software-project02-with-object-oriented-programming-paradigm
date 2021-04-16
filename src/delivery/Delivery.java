@@ -3,7 +3,8 @@
 package delivery;
 
 import java.util.*;
-import java.util.stream.Collectors;
+import static java.util.Comparator.*;
+import static java.util.stream.Collectors.*;
 
 public class Delivery {
 	// R1
@@ -57,9 +58,9 @@ public class Delivery {
 	public List<String> getRestaurantsForCategory(String category) {
 		return restaurants.values().stream()
 				.filter(e->e.getCategory().equals(category))
-				.sorted(Comparator.comparing(Restaurant::getName))
+				.sorted(comparing(Restaurant::getName))
 				.map(Restaurant::getName)
-                .collect(Collectors.toList());
+                .collect(toList());
 	}
 
 	// R2
@@ -99,8 +100,8 @@ public class Delivery {
 				  .stream()
 				  .flatMap(e->e.getDishes().stream())
 				  .filter(e->e.getPrice()>=minPrice && e.getPrice()<=maxPrice)
-				  .collect(Collectors.groupingBy(Dish::getRestaurantName,
-						  Collectors.mapping(Dish::getName,Collectors.toList())));
+				  .collect(groupingBy(Dish::getRestaurantName,
+						  mapping(Dish::getName,toList())));
 
 	}
 
@@ -121,9 +122,9 @@ public class Delivery {
 			return restaurant
 					.getDishes()
 					.stream()
-					.sorted(Comparator.comparing(Dish::getName))
+					.sorted(comparing(Dish::getName))
 					.map(Dish::getName)
-					.collect(Collectors.toList());
+					.collect(toList());
 
 		}
 
@@ -144,7 +145,7 @@ public class Delivery {
 			.filter(e->e.getCategory().equals(category))
 				.flatMap(e->e.getDishes().stream())
 				.map(Dish::getName)
-				.collect(Collectors.toList());
+				.collect(toList());
 
 		if(!categories.contains(category) || listOfDishes.isEmpty()){
 			return new LinkedList<>();
@@ -198,7 +199,7 @@ public class Delivery {
 
 		List<Integer> listOfOrderIds=orders.values().stream()
 				.filter(e->e.getDeliveryTime()==deliveryTime && e.getDeliveryDistance()<=maxDistance)
-				.map(Order::getOrderId).collect(Collectors.toList());
+				.map(Order::getOrderId).collect(toList());
 
 
 		List<Integer> maxIdNumbers = new LinkedList<>();
@@ -267,9 +268,9 @@ public class Delivery {
 
 		return restaurants.values().stream()
                 .filter(e->e.getRatings().size()!=0)
-				.sorted(Comparator.comparing(Restaurant::getAverageRating).reversed())
+				.sorted(comparing(Restaurant::getAverageRating).reversed())
 				.map(Restaurant::getName)
-                .collect(Collectors.toList());
+                .collect(toList());
 	}
 
 	// R5
@@ -283,8 +284,8 @@ public class Delivery {
 	public Map<String, Long> ordersPerCategory() {
 		return orders.values()
 				.stream()
-				.collect(Collectors.groupingBy(e->e.getRestaurantName().getCategory(),
-						Collectors.mapping(Order::getOrderId,Collectors.counting())));
+				.collect(groupingBy(e->e.getRestaurantName().getCategory(),
+						mapping(Order::getOrderId,counting())));
 	}
 
 	/**
@@ -296,7 +297,7 @@ public class Delivery {
 	public String bestRestaurant() {
 		return restaurants.values()
 				.stream()
-				.max(Comparator.comparing(Restaurant::getAverageRating))
+				.max(comparing(Restaurant::getAverageRating))
 				.map(Restaurant::getName)
                 .get();
 	}
